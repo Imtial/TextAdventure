@@ -1,21 +1,19 @@
-# the compiler: gcc for C program, define as g++ for C++
 CC = gcc
-# compiler flags:
-#  -g    adds debugging information to the executable file
-#  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -c -g -Wall
-# the build target executable:
-items.o: items.c
-	$(CC) $(CFLAGS) items.c
+CFLAGS = -c -g -Wall
 
-rooms.o: rooms.c
+all: adventure
+
+adventure: rooms.o items.o adventure.o
+	$(CC) -o adventure rooms.o items.o adventure.o
+
+rooms.o: rooms.c rooms.h
 	$(CC) $(CFLAGS) rooms.c
+
+items.o: items.c items.h
+	$(CC) $(CFLAGS) items.c
 
 adventure.o: adventure.c
 	$(CC) $(CFLAGS) adventure.c
 
-adventure: items.o rooms.o adventure.o
-	$(CC) items.o rooms.o adventure.o -o adventure
-
 clean:
-	rm *.o adventure
+	rm *.o
